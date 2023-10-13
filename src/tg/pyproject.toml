@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "tg client"
+version = "0.1.0"
+description = "TG Client for school canteen"
+authors = ["monik <Alex.uma2007@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aiogram = "3.0.0b7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
