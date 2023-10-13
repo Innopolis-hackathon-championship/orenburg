@@ -7,7 +7,7 @@ flags = {"long_operation": "typing"}
 
 
 # TODO: api request to validate couriers
-@router.message(Command("start"))
+@router.message(Command("start"), flags=flags)
 async def start_cmd(message: Message):
     await message.answer(
         'Здравствуйте! Я - <b>Бот Школьной Столовой</b>! '
