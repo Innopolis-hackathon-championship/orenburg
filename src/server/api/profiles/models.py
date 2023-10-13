@@ -19,7 +19,8 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     )
     
     telegram_id = models.CharField(
-        "telegram id", max_length=127
+        "telegram id", unique=True,
+        max_length=127
     )
 
     balance = models.FloatField(
@@ -62,9 +63,9 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
         
     @property
     def role_model(self):
-        return CartModel.objects.filter(
-            user_model=self
-        )
+        return role_model_map[self.role].objects.filter(
+            user=self
+        ).first()
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
@@ -157,7 +158,7 @@ class BarmaidModel(models.Model):
         return f"{self.user.username}"
 
 
-role_model_map = {
+role_model_map: dict[str, models.Model] = {
     UserModel.RoleChoices.CUSTOMER[0]: CustomerModel,
     UserModel.RoleChoices.BARMAID[0]: BarmaidModel,
     UserModel.RoleChoices.COURIER[0]: CourierModel,
