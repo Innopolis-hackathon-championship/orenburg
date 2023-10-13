@@ -2,7 +2,7 @@ from aiogram import Router, Bot
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters.text import Text
 
-from src.tg.keyboards.courier.profile_kb import profile_keyboard
+from keyboards.courier.profile_kb import profile_keyboard
 
 
 router = Router()
@@ -17,3 +17,4 @@ async def profile_view(callback: CallbackQuery, bot: Bot):
         message_id=callback.message.message_id,
         reply_markup=profile_keyboard
     )
+    await callback.answer()

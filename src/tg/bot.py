@@ -2,12 +2,11 @@ import os
 import asyncio
 
 from aiogram import Bot, Dispatcher
-from dotenv import load_dotenv
 
-from .handlers import (
-    registration_handler
+from handlers import (
+    start_handler
 )
-from .middlewares.chat_action import ChatActionMiddleware
+from middlewares.chat_action import ChatActionMiddleware
 
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
@@ -22,7 +21,7 @@ async def main():
     
     dp.message.middleware(ChatActionMiddleware())
     
-    dp.include_routers(registration_handler.router)
+    dp.include_routers(start_handler.router)
     
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
