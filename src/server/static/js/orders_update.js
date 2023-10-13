@@ -32,7 +32,7 @@ const update = () => {
             orders.innerHTML += `
             <li>
                 <div class="order">
-                    <p><span class="bold">Адрес доставки:</span> ${element.delivery_address}</p>
+                    <p><span class="bold">Адрес доставки:</span> ${element.delivery_address | "Cамовывоз"}</p>
                     <p><span class="bold">Список продуктов:</span></p>
                     <ul>
                         ${products}
