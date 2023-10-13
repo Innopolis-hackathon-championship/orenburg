@@ -26,7 +26,6 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     balance = models.FloatField(
         "Баланс", default=0
     )
-    
     class RoleChoices(models.TextChoices):
         BARMAID = "barmaid", "Повариха"
         COURIER = "courier", "Курьер"
@@ -50,6 +49,27 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
         "Администратор",
         default=False
     )
+    
+    is_verified = models.BooleanField(
+        "is_confirmed", 
+        default=False
+    )
+    
+    code = models.CharField("code", max_length=50)
+    
+    def verify(self, code: str) -> bool:
+        """Verify user.
+
+        Args:
+            code (str): code, that user get from administrator.
+        """
+        if self.is_verified:
+            return True
+        if self.code != code:
+            return False
+        self.is_verified = True
+        self.save()
+        return True
 
     @property
     def is_staff(self):
@@ -59,7 +79,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     def cart(self):
         return CartModel.objects.filter(
             user_model=self
-        )
+        ).all()
         
     @property
     def role_model(self):
@@ -156,6 +176,14 @@ class BarmaidModel(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user.username}"
+
+
+class AdminModel(models.Model):
+    @property
+    def unverified_users(self):
+        return UserModel.objects.filter(
+            is_verified=False
+        ).all()
 
 
 role_model_map: dict[str, models.Model] = {
