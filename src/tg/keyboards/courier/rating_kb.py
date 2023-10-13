@@ -1,6 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
+# rate:order_num:rating
 rating_btns = [
     [
         InlineKeyboardButton(
