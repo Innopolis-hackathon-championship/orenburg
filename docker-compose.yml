@@ -7,6 +7,12 @@ services:
     restart: always
     ports:
       - 8000:8000
+  
+  bot:
+    build:
+      context: ./src/tg
+    container_name: bot
+    restart: always
 
   # db:
   #   image: postgres
