@@ -1,26 +1,21 @@
 services:
   app:
     build:
-      context: ./src/backend/.docker/
-    env_file:
-      - .env-dev
+      context: ./src/server
     container_name: app
     command: ["bash", "start.sh"]
     restart: always
     ports:
-      - 8080:8080
-    depends_on:
-      - db
-      # - pgadmin
+      - 8000:8000
 
-  db:
-    image: postgres
-    container_name: db
-    restart: always
-    env_file:
-      - .env-dev
-    volumes:
-      -  db_data:/var/lib/backup/data
+  # db:
+  #   image: postgres
+  #   container_name: db
+  #   restart: always
+  #   env_file:
+  #     - .env-dev
+  #   volumes:
+  #     -  db_data:/var/lib/backup/data
   
   # pgadmin:
   #   image: dpage/pgadmin4
