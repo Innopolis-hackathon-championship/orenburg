@@ -1,0 +1,66 @@
+{% load static %}
+<footer>
+  <ul>
+    <li class="item {% if request.path == '/take-delivery/' %} selected {% endif %}"><a href="{% url 'take_delivery' %}">Принять поставку</a></li>
+    <li class="item {% if request.path == '//' %} selected {% endif %}"><a href="#">Панель Администратора</a></li>
+    <li class="item {% if request.path == '//' %} selected {% endif %}"><a href="#">Найти курьера</a></li>
+  </ul>
+</footer>
+
+<style>
+  footer {
+    background-color: #565656;
+    color: white;
+
+    padding: 80px 40px;
+    height: 80px;
+
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+
+  footer ul {
+    display: flex;
+  }
+
+  footer li {
+    list-style: none;
+  }
+
+  footer li:not(:first-child) {
+    margin-left: 30px;
+  }
+
+  footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    
+  }
+
+  footer .item {
+    position: relative;
+    cursor: pointer;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  footer .item:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #565656;
+    content: "";
+    transition: width 0.3s ease-out;
+  }
+
+  footer .item:hover:after,
+  footer .item:focus:after {
+    width: 100%;
+  }
+</style>
