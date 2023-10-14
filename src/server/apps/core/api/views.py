@@ -21,7 +21,9 @@ class TakeDeliveryView(APIView):
 
     def get(self, request: Request):
         serializer = self.serializer_class(
-            models.ProductModel.objects.all(),
+            models.ProductModel.objects.filter(
+                is_visible=True
+            ),
             many=True
         )
         
