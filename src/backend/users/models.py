@@ -19,6 +19,13 @@ class User(Base):
     is_verified = Column("is_confirmed", Boolean, default=False)
     code = Column("code", String(length=5))
     
+    # Django requirements
+    last_login = Column('last_login', DateTime, default=datetime.datetime.now)
+    password = Column("password", String)
+    is_active = Column("is_active", Boolean, default=False)
+    is_superuser = Column("is_superuser", Boolean, default=False)
+    
+    
     __mapper_args__ = {
         "polymorphic_on": "role",
         # "polymorphic_identity": "user",
@@ -47,7 +54,9 @@ class Courier(User):
     
     id = Column('id', ForeignKey('user.id'), primary_key=True)    
     is_online = Column('is_online', Boolean)
-    
+    raiting = Column("raiting", Float, default=5)
+    is_delivering = Column("is_delivering", Boolean, default=False)
+
     __mapper_args__ = {
         "polymorphic_identity": Role.courier,
     }

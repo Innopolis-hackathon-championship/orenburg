@@ -3,6 +3,7 @@ import json
 from rest_framework.views import APIView
 from rest_framework import status, generics
 from rest_framework.response import Response
+from django.utils import timezone
 from rest_framework.request import Request
 from rest_framework.permissions import AllowAny
 from django.conf import settings
@@ -221,6 +222,7 @@ class GiveDeliveryView(APIView):
             
         order.status = "delivery"
         order.courier_id = user.pk
+        order.delivery_address = timezone.now()
         
         order.save()
         
@@ -270,6 +272,76 @@ class OrderReadyView(APIView):
                 "message": f"Ваш заказ готов!\nМожете получить его по следующему PIN коду: {order.code}",
             }
         })
+        
+        return Response({
+            "message": "ok"
+        }, status.HTTP_200_OK)
+
+
+class OrderTakeView(APIView):
+    def get(self, request: Request):
+        order_id = request.query_params.get("order_id")
+        
+        if not order_id:
+            return Response({
+                "message": "no order_id in query params"
+            }, status.HTTP_400_BAD_REQUEST)
+            
+        order = models.OrderModel.objects.filter(
+            pk=order_id
+        ).first()
+    
+        if not order:
+            return Response({
+                "message": f"no order by {order_id} id"
+            }, status.HTTP_400_BAD_REQUEST)
+
+        order.status = "finished"
+        order.finish_date = timezone.now()
+        
+        user = UserModel.objects.filter(pk=order.customer_id).first()
+        
+        if not user:
+            order.delete()
+
+            return Response({
+                "message": "no user"
+            }, status.HTTP_200_OK)
+        
+        user.balance -= order.amount
+        user.save()
+        
+        if order.courier_id:
+            courier = models.CourierModel.objects.filter(
+                pk=order.courier_id
+            ).first()
+
+            if courier:
+                courier.is_online = True
+                courier.is_delivering = False
+                
+                courier.save()
+                
+                user_courier = UserModel.objects.filter(
+                    pk=order.courier_id
+                ).first()
+                
+                if user_courier:
+                    user_courier.balance += order.amount // 10
+                    user_courier.save()
+        
+        m2m = models.OrderToProductModel.objects.filter(
+            order=order_id
+        )
+        
+        for m in m2m:
+            product = models.ProductModel.objects.filter(
+                pk=m.product
+            ).first()
+            
+            if product:
+                product.quantity -= m.amount
+                product.save()
         
         return Response({
             "message": "ok"

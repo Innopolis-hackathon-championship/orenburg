@@ -1,9 +1,10 @@
 const urlMap = {
     orders: "/api/new-orders/",
+    orderReady: "/api/order/ready/",
+
     findDelivery: "/api/delivery/find/?",
     statusDelivery: "/api/delivery/status/?",
-    giveDelivery: "/api/delivery/give/?",
-    orderReady: "/api/order/ready/"
+    giveDelivery: "/api/order/take/?",
 }
 
 const get = (url) => {
@@ -48,14 +49,14 @@ const update = () => {
                             element.delivery_address ?
                             `<input class="send" type="submit" value="Отправить в доставку" onclick="sendDelivery(${element.id})">`
                             :
-                            `<input class="send" type="submit" value="Сообщить о готовности" id="sendDelivery_${element.id}">`
+                            `<input class="send" type="submit" value="Сообщить о готовности" onclick="orderReady(${element.id})">`
                         :
                             element.status === "ready" ?
                             `<p>Ищем курьера...</p>`
                             :
                             `
                             <div style="display: flex;">
-                                <input class="send" type="submit" value="Отдать курьеру" id="sendDelivery_${element.id}">
+                                <input class="send" type="submit" value="Отдать курьеру" onclick="giveDelivery(${element.id})">
                                 <p style="margin-left: 30px;">PIN код для проверки: ${element.code}</p>
                             </div>
                             `

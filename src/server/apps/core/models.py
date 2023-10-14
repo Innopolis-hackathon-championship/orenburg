@@ -44,6 +44,7 @@ class OrderModel(models.Model):
         "Статус", max_length=12,
         choices=(
             ("prepare", "Готовится"),
+            ("wait", "Ожидает самовывоз"),
             ("ready", "Ожидает доставки"),
             ("delivery", "Доставляется"),
             ("arrived", "Ожидание"),
