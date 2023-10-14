@@ -5,6 +5,7 @@ from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
 
 import users
+import products
 
 logging.basicConfig(
     level=logging.INFO,
@@ -14,6 +15,8 @@ logging.basicConfig(
 app = FastAPI()
 
 app.include_router(users.router.router)
+app.include_router(products.router.order_router)
+app.include_router(products.router.product_router)
 
 
 @app.route('/')

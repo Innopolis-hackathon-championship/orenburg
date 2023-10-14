@@ -18,9 +18,7 @@ async def user_from_path(
         )
     user = user.scalar()
     if user is None:
-        raise HTTPException(
-            404
-        )
+        raise HTTPException(404)
     return user
 
 
