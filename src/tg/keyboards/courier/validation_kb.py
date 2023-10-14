@@ -2,12 +2,12 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 in_delivery_btns = [
-    [InlineKeyboardButton(text="Я на месте", callback_data="arrived")],
+    [InlineKeyboardButton(text="⏱️ Я на месте", callback_data="arrived")],
 ]
 
 
 recieve_btns = [
-    [InlineKeyboardButton(text="Ввести PIN", callback_data="insert_pin")]
+    [InlineKeyboardButton(text="🧑‍💻 Ввести PIN", callback_data="insert_pin")]
 ]
 
 

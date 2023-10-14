@@ -7,7 +7,7 @@ from aiogram.fsm.state import State, StatesGroup
 from api_data.verification import check_verification_code
 from api_data.register_user import register_user
 from keyboards.courier.main_menu_kb import main_menu_keyboard
-from keyboards.courier.incoming_order_kb import incoming_order_keyboard
+from keyboards.courier.incoming_order_kb import make_incoming_order_kb
 
 
 router = Router()
@@ -28,8 +28,7 @@ async def start_cmd(message: Message, state: FSMContext):
     await register_user(user_data)
     await message.answer(
         "Добрый день! Для регистрации в системе введите "
-        "код, который вам даст классный руководитель",
-        reply_markup=main_menu_keyboard
+        "код, который вам даст классный руководитель"
     )
     await state.set_state(VerifyUser.input_verification_code)
 
@@ -49,4 +48,4 @@ async def verify_user(message: Message, state: FSMContext):
 # test case of order (will be removed in the future)
 @router.message(Command("test"), flags=flags)
 async def make_test(message: Message):
-    await message.answer("Вам заказ:", reply_markup=incoming_order_keyboard)
+    await message.answer("Вам заказ:", reply_markup=make_incoming_order_kb("123"))

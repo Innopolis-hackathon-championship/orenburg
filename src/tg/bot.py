@@ -2,13 +2,16 @@ import os
 import asyncio
 
 from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.memory import MemoryStorage
+
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from handlers import start_handler
 from handlers.courier import (
     order_handler,
     courier_profile_handler,
-    send_order_handler
+    send_order_handler,
+    cancel_order_handler
 )
 from middlewares.chat_action import ChatActionMiddleware
 
@@ -19,14 +22,15 @@ async def main():
         token="5805274347:AAHocXLBPPKM21iJDmtgCEMApTNcQEbrzkE",
         parse_mode="HTML"
     )
-    dp = Dispatcher()
+    dp = Dispatcher(storage=MemoryStorage())
 
     dp.message.middleware(ChatActionMiddleware())
 
     dp.include_routers(
         start_handler.router,
         order_handler.router,
-        courier_profile_handler.router
+        courier_profile_handler.router,
+        cancel_order_handler.router
     )
 
     scheduler = AsyncIOScheduler()

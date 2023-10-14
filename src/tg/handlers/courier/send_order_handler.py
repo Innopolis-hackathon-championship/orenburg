@@ -1,7 +1,9 @@
 from aiogram import Router, Bot
 from aiogram.types import Message
 
-from api_data.get_orders_queue_data import get_orders_data
+from api_data.courier.get_orders_queue_data import (
+    get_orders_data
+)
 
 
 router = Router()

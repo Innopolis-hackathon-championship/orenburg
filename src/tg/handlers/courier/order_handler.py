@@ -25,14 +25,17 @@ class OrderDelivery(StatesGroup):
     rate_client = State()
 
 
-@router.callback_query(Text("accept", ignore_case=True))
+@router.callback_query(Text(startswith="accept_", ignore_case=True))
 async def accept_order(callback: CallbackQuery, bot: Bot, state: FSMContext):
+    order_id = callback.data.split("_")[1]
+    print(order_id)
     await bot.edit_message_text(
         text="Вы приняли заказ #dummy-data...",
         chat_id=callback.from_user.id,
         message_id=callback.message.message_id,
         reply_markup=in_delivery_keyboard
     )
+    await state.update_data({"order_id": order_id})
     await state.set_state(OrderDelivery.in_delivery)
     await callback.answer()
 
@@ -53,6 +56,9 @@ async def decline_order(callback: CallbackQuery, bot: Bot):
     Text("arrived", ignore_case=True), OrderDelivery.in_delivery
 )
 async def order_arrived(callback: CallbackQuery, bot: Bot, state: FSMContext):
+    data = await state.get_data()
+    order_id = data["order_id"]
+    print(order_id)
     await bot.edit_message_text(
         text='Ожидайте заказчика. По приходу пользователя нажмите на кнопку '
         '"<b>Ввести PIN</b>" для дальнейших инструкций',
@@ -79,6 +85,9 @@ async def pin_insert(callback: CallbackQuery, bot: Bot, state: FSMContext):
 
 @router.message(F.text, OrderDelivery.pin_insert, PINFilter(), flags=flags)
 async def successful_order(message: Message, state: FSMContext):
+    data = await state.get_data()
+    order_id = data["order_id"]
+    print(order_id)
     await message.answer(
         "Заказ успешно завершен! Оцените пользователя.",
         reply_markup=rating_keyboard
@@ -99,6 +108,8 @@ async def wrong_pin(message: Message):
 async def rating_client(callback: CallbackQuery, bot: Bot, state: FSMContext):
     data = callback.data.split("_")[1]
     if int(data) > 0:
+        data = await state.get_data()
+        order_id = data["order_id"]
         text = "Спасибо, ваш голос учтен! Ожидайте следующего заказа или уходите с линии."
     else:
         text = "Ожидайте следующего заказа или уходите с линии."
