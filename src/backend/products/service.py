@@ -26,3 +26,7 @@ def generate_code():
     code = random.choices(string.digits, k=5)
     code = ''.join(code)
     return code
+
+
+async def get_order(session: AsyncSession, id: int):
+    return await session.get(models.Order, id)

@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Path
+from fastapi import APIRouter, Path, Query
 from sqlalchemy import select
 
 from . import schemas, dependencies, models, constants, service
@@ -89,3 +89,17 @@ async def create_order(
     session.add(order)
     await session.commit()
     return order
+
+
+@order_router.post(
+    '/{id}/status'
+    )
+async def set_status(
+    session: dependencies.InjectionSession,
+    id: Annotated[int, Path()],
+    status: Annotated[constants.OrderStatus, Query()]
+    ):
+    order: models.Order = service.get_order(session, id)
+    order.status = status
+    await session.commit()
+    
