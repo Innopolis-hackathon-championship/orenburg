@@ -3,6 +3,7 @@ import logging
 from fastapi import FastAPI, APIRouter
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 import users
 import products
@@ -13,6 +14,7 @@ logging.basicConfig(
     )
 
 app = FastAPI()
+# app.add_middleware(HTTPSRedirectMiddleware)
 api_router = APIRouter(
     prefix='/api'
 )
