@@ -55,7 +55,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
         default=False
     )
     
-    code = models.CharField("code", max_length=50)
+    code = models.CharField("code", max_length=50, default="")
     
     def verify(self, code: str) -> bool:
         """Verify user.

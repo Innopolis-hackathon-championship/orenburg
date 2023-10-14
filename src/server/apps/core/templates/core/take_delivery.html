@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block styles %}
-
+<link rel="stylesheet" href="{% static 'css/take_delivery.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -10,5 +10,53 @@
 {% endblock %}
 
 {% block body %}
-    <p>Тут какой-то текст</p>
+    <div id="take-delivery">
+        <h2>Принять поставку</h2>
+        <table class="iksweb">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Изображение</th>
+                <th>Цена</th>
+                <th>Кол-во на складе</th>
+                <th>Поставка</th>
+            </tr>
+            </thead>
+            <tbody id="product-list">
+            <tr class="product_id=1">
+                <td>Карась</td>
+                <td><img class="product-img" src="http://2.bp.blogspot.com/-d3BCIYnJcSg/UBjvvSee2TI/AAAAAAAAAKM/CzYoimr2KDg/s1600/karas.jpg" alt=""></td>
+                <td><input type="text" value="1000" id="price_1"> р.</td>
+                <td>20 шт.</td>
+                <td><input type="text" value="0" id="quantity_1"> шт.</td>
+            </tr>
+            <tr class="product_id=2">
+                <td>Карась</td>
+                <td><img class="product-img" src="http://2.bp.blogspot.com/-d3BCIYnJcSg/UBjvvSee2TI/AAAAAAAAAKM/CzYoimr2KDg/s1600/karas.jpg" alt=""></td>
+                <td><input type="text" value="1000" id="price_2"> р.</td>
+                <td>20 шт.</td>
+                <td><input type="text" value="0" id="quantity_2"> шт.</td>
+            </tr>
+            <tr class="product_id=1">
+                <td>Карась</td>
+                <td><img class="product-img" src="http://2.bp.blogspot.com/-d3BCIYnJcSg/UBjvvSee2TI/AAAAAAAAAKM/CzYoimr2KDg/s1600/karas.jpg" alt=""></td>
+                <td><input type="text" value="1000" id="price"> р.</td>
+                <td>20 шт.</td>
+                <td><input type="text" value="0" id="quantity"> шт.</td>
+            </tr>
+            <tr class="product_id=1">
+                <td>Карась</td>
+                <td><img class="product-img" src="http://2.bp.blogspot.com/-d3BCIYnJcSg/UBjvvSee2TI/AAAAAAAAAKM/CzYoimr2KDg/s1600/karas.jpg" alt=""></td>
+                <td><input type="text" value="1000" id="price"> р.</td>
+                <td>20 шт.</td>
+                <td><input type="text" value="0" id="quantity"> шт.</td>
+            </tr>
+            </tbody>
+        </table>
+        <input type="submit" value="Принять поставку" id="take_btn">
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/take_delivery.js' %}"></script>
 {% endblock %}

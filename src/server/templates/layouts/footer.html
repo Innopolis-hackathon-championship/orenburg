@@ -1,9 +1,9 @@
 {% load static %}
 <footer>
   <ul>
-    <li class="item {% if request.path == '/take-delivery/' %} selected {% endif %}"><a href="{% url 'take_delivery' %}">Принять поставку</a></li>
-    <li class="item {% if request.path == '//' %} selected {% endif %}"><a href="#">Панель Администратора</a></li>
-    <li class="item {% if request.path == '//' %} selected {% endif %}"><a href="#">Найти курьера</a></li>
+    <li class="item"><a href="{% url 'index' %}">Заказы</a></li>
+    <li class="item"><a href="{% url 'take_delivery' %}">Принять поставку</a></li>
+    <li class="item"><a href="{% url 'admin:index' %}">Панель Администратора</a></li>
   </ul>
 </footer>
 

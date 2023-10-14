@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     
     "apps.core",
     
-    "api.orders",
-    "api.products",
+    # "api.orders",
+    # "api.products",
     "api.profiles"
 ]
 
@@ -186,3 +186,9 @@ CORS_ALLOW_HEADERS = [
     "boundary",
     "Set-Cookie",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}

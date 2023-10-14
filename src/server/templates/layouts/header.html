@@ -4,8 +4,8 @@
     Учет Бубликов
   </h1>
   <ul>
-    <li class="item {% if request.path == '/reward/my-rewards/' %} selected {% endif %}"><a href="{% url 'take_delivery' %}">Принять поставку</a></li>
-    <li class="item {% if request.path == '/classes/' %} selected {% endif %}"><a href="#">Найти курьера</a></li>
+    <li class="item {% if request.path == '/' %} selected {% endif %}"><a href="{% url 'index' %}">Заказы</a></li>
+    <li class="item {% if request.path == '/take-delivery/' %} selected {% endif %}"><a href="{% url 'take_delivery' %}">Принять поставку</a></li>
   </ul>
 </header>
 
@@ -66,6 +66,10 @@
 
   header .item:hover:after,
   header .item:focus:after {
+    width: 100%;
+  }
+
+  header .selected:after {
     width: 100%;
   }
 </style>
