@@ -1,37 +1,26 @@
 services:
-  app:
+  fastapi:
     build:
       context: ./src/backend/
     env_file:
       - .env-dev
-    container_name: app
+    container_name: fastapi
     command: ["bash", "start.sh"]
     restart: always
     ports:
       - 8080:8080
-    # depends_on:
-      # - db
-      # - pgadmin
-
-  # db:
-  #   image: postgres
-  #   container_name: db
-  #   restart: always
-  #   env_file:
-  #     - .env-dev
-  #   volumes:
-  #     -  db_data:/var/lib/backup/data
-  
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin
-  #   restart: always
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
-  #     PGADMIN_DEFAULT_PASSWORD: root
-  #   ports:
-  #     - "5050:80"
-  
-# volumes:
-#   db_data:
-#     name: "db_data"
+  django:
+    build: 
+      context: ./src/server/
+    env_file:
+      - .env-dev
+    container_name: django
+    restart: always
+    ports:
+      - 8000:8000
+    
+  bot:
+    build: 
+      context: ./src/tg
+    container_name: bot
+    
