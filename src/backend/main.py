@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
 
-import database
+import users
 
 logging.basicConfig(
     level=logging.INFO,
@@ -12,6 +12,8 @@ logging.basicConfig(
     )
 
 app = FastAPI()
+
+app.include_router(users.router.router)
 
 
 @app.route('/')

@@ -1,7 +1,7 @@
 services:
   app:
     build:
-      context: ./src/backend/.docker/
+      context: ./src/backend/
     env_file:
       - .env-dev
     container_name: app
@@ -9,18 +9,18 @@ services:
     restart: always
     ports:
       - 8080:8080
-    depends_on:
-      - db
+    # depends_on:
+      # - db
       # - pgadmin
 
-  db:
-    image: postgres
-    container_name: db
-    restart: always
-    env_file:
-      - .env-dev
-    volumes:
-      -  db_data:/var/lib/backup/data
+  # db:
+  #   image: postgres
+  #   container_name: db
+  #   restart: always
+  #   env_file:
+  #     - .env-dev
+  #   volumes:
+  #     -  db_data:/var/lib/backup/data
   
   # pgadmin:
   #   image: dpage/pgadmin4
@@ -32,6 +32,6 @@ services:
   #   ports:
   #     - "5050:80"
   
-volumes:
-  db_data:
-    name: "db_data"
+# volumes:
+#   db_data:
+#     name: "db_data"
