@@ -41,8 +41,6 @@ class CustomerRead(UserRead):
     pass
 
 
-
-
 class CustomerCreate(UserCreate):
     pass
 

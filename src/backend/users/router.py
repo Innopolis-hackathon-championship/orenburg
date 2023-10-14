@@ -170,3 +170,20 @@ async def get_courier_orders(
             .where(products.models.Order.courier_id == courier.id))
     orders = await session.execute(stmt)
     return orders.scalars
+
+
+@courier_router.post(
+    '/{username}/state',
+    response_model=list[products.schemas.Order]
+)
+async def set_courier_state(
+    session: dependencies.InjectionSession,
+    username: Annotated[str, Path()],
+    is_online: Annotated[bool, Query()]
+    ):
+    stmt = select(models.Courier).where(models.Courier.username == username)
+    courier = await session.execute(stmt)
+    courier = courier.scalar()
+    courier.is_online = is_online
+    await session.commit()
+    
