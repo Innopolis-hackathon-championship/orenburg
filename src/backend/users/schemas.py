@@ -54,4 +54,5 @@ class UnverifiedUser(BaseModel):
     
     
 class Courier(UserRead):
+    rating: float
     is_online: bool

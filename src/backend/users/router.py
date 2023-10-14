@@ -152,4 +152,21 @@ async def get_courier(
     courier = await session.execute(stmt)
     courier = courier.scalar()
     return courier
-   
+
+
+@courier_router.get(
+    '{username}/orders',
+    response_model=list[products.schemas.Order]
+)
+async def get_courier_orders(
+    session: dependencies.InjectionSession,
+    username: Annotated[str, Path()]
+    ):
+    stmt = select(models.Courier).where(models.Courier.username == username)
+    courier = await session.execute(stmt)
+    courier = courier.scalar()
+    
+    stmt = (select(products.models.Order)
+            .where(products.models.Order.courier_id == courier.id))
+    orders = await session.execute(stmt)
+    return orders.scalars
