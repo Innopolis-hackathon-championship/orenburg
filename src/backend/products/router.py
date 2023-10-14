@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Path, Query
+from fastapi import APIRouter, Path, Query, Response
 from sqlalchemy import select
 
 from . import schemas, dependencies, models, constants, service
@@ -102,3 +102,17 @@ async def set_status(
     order: models.Order = service.get_order(session, id)
     order.status = status
     await session.commit()
+
+
+@order_router.delete(
+    '/{id}'
+)
+async def delete_order(
+    session: dependencies.InjectionSession,
+    id: Annotated[int, Path()]
+    ):
+    order: models.Order = service.get_order(session, id)
+    if order.status != constants.OrderStatus.prepare:
+        return Response({"msg": "No."}, status_code=400)
+    await session.delete(order)
+    return Response({"msg": "Yes."})

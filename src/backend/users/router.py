@@ -155,7 +155,7 @@ async def get_courier(
 
 
 @courier_router.get(
-    '{username}/orders',
+    '/{username}/orders',
     response_model=list[products.schemas.Order]
 )
 async def get_courier_orders(
