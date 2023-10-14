@@ -11,7 +11,7 @@ router = APIRouter(
     prefix='/users'
 )
 
-courier = APIRouter(
+courier_router = APIRouter(
     prefix='/courier'
 )
 
@@ -141,8 +141,17 @@ async def get_order(
 
 
 
-# @courier.get(
-#     '/orders',
-#     response_model=list[products.schemas.Order]
-#     )
+@courier_router.get(
+    '/{username}',
+    response_model=list[products.schemas.Order]
+    )
+async def get_courier(
+    session: dependencies.InjectionSession,
+    username: Annotated[str, Path()]
+    ):
+    stmt = select(models.Courier).where(models.Courier.username == username)
+    courier = await session.execute(stmt)
+    courier = courier.scalar()
+    return courier
+
     

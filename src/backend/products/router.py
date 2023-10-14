@@ -102,4 +102,3 @@ async def set_status(
     order: models.Order = service.get_order(session, id)
     order.status = status
     await session.commit()
-    
