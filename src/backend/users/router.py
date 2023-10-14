@@ -123,7 +123,7 @@ async def get_uverified_users(
 
 
 @router.get(
-    '/{usernae}/orders',
+    '/{username}/orders',
     response_model=list[products.schemas.Order]
     )
 async def get_order(
