@@ -152,5 +152,4 @@ async def get_courier(
     courier = await session.execute(stmt)
     courier = courier.scalar()
     return courier
-
-    
+   
