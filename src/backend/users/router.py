@@ -142,7 +142,7 @@ async def get_order(
 
 @courier_router.get(
     '/{username}',
-    response_model=list[schemas.Courier]
+    response_model=schemas.Courier
     )
 async def get_courier(
     session: dependencies.InjectionSession,
