@@ -142,7 +142,7 @@ async def get_order(
 
 @courier_router.get(
     '/{username}',
-    response_model=schemas.Courier
+    response_model=schemas.Courier | None
     )
 async def get_courier(
     session: dependencies.InjectionSession,
@@ -151,6 +151,10 @@ async def get_courier(
     stmt = select(models.Courier).where(models.Courier.username == username)
     courier = await session.execute(stmt)
     courier = courier.scalar()
+    if courier is None:
+        return Response(
+            status_code=404
+            )
     return courier
 
 
