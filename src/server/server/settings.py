@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     
-    "api.orders",
-    "api.products",
+    "apps.core",
+    
+    # "api.orders",
+    # "api.products",
     "api.profiles"
 ]
 
@@ -64,7 +66,9 @@ ROOT_URLCONF = "server.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates/"
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -136,7 +140,9 @@ AUTH_USER_MODEL = "profiles.UserModel"
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media/"
@@ -180,3 +186,9 @@ CORS_ALLOW_HEADERS = [
     "boundary",
     "Set-Cookie",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}

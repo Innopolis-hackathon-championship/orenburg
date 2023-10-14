@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/clear.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block styles %}
+    {% endblock %}
+    <title>
+        {% block title %}Учет столовой{% endblock %}
+    </title>
+</head>
+<body>
+    <div class="wrapper">
+        <div style="width: 100%;">
+            {% include 'layouts/header.html' %}
+        </div>
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
+        <div style="width: 100%;">
+            {% include 'layouts/footer.html' %}
+        </div>
+    </div>
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

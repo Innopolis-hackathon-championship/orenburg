@@ -1,0 +1,75 @@
+{% load static %}
+<header>
+  <h1>
+    Учет Бубликов
+  </h1>
+  <ul>
+    <li class="item {% if request.path == '/' %} selected {% endif %}"><a href="{% url 'index' %}">Заказы</a></li>
+    <li class="item {% if request.path == '/take-delivery/' %} selected {% endif %}"><a href="{% url 'take_delivery' %}">Принять поставку</a></li>
+  </ul>
+</header>
+
+<style>
+  header h1 {
+    font-size: 25px;
+  }
+
+  header {
+    padding: 40px;
+    height: 80px;
+
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  header ul {
+    display: flex;
+  }
+
+  header li {
+    list-style: none;
+  }
+
+  header li:not(:first-child) {
+    margin-left: 80px;
+  }
+
+  header a {
+    color: black;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 20px;
+    
+  }
+
+  header .item {
+    position: relative;
+    cursor: pointer;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  header .item:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #474747;
+    content: "";
+    transition: width 0.3s ease-out;
+  }
+
+  header .item:hover:after,
+  header .item:focus:after {
+    width: 100%;
+  }
+
+  header .selected:after {
+    width: 100%;
+  }
+</style>

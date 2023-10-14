@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from . import models
-from api.products.models import ProductDetailSerializer
+from api.products.serialziers import ProductDetailSerializer
 
 class UserListSerializer(serializers.ModelSerializer):
     balance = serializers.IntegerField(read_only=True)
