@@ -60,7 +60,7 @@ async def accept_order(callback: CallbackQuery, bot: Bot, state: FSMContext):
     Text("arrived", ignore_case=True), OrderDelivery.in_delivery
 )
 async def order_arrived(callback: CallbackQuery, bot: Bot, state: FSMContext):
-    order_id = get_courier_order(callback.from_user.username)
+    order_id = await get_courier_order(callback.from_user.username)
     order_id = order_id["order_id"]
     await delivery_arrived(str(order_id))
     await bot.edit_message_text(

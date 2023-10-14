@@ -8,8 +8,10 @@ from handlers import start_handler
 from handlers.courier import (
     order_handler,
     courier_profile_handler,
-    cancel_order_handler
+    cancel_order_handler,
+    state_handler
 )
+from handlers.client import confirm_receiving, rating_handler
 from middlewares.chat_action import ChatActionMiddleware
 
 
@@ -27,7 +29,10 @@ async def main():
         start_handler.router,
         order_handler.router,
         courier_profile_handler.router,
-        cancel_order_handler.router
+        cancel_order_handler.router,
+        state_handler.router,
+        confirm_receiving.router,
+        rating_handler.router
     )
 
 
