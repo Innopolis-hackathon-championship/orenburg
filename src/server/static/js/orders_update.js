@@ -1,7 +1,9 @@
 const urlMap = {
     orders: "/api/new-orders/",
     findDelivery: "/api/delivery/find/?",
+    statusDelivery: "/api/delivery/status/?",
     giveDelivery: "/api/delivery/give/?",
+    orderReady: "/api/order/ready/"
 }
 
 const get = (url) => {
@@ -23,12 +25,12 @@ const update = () => {
                     <div class="item">
                         <img src="${product.product.image}" alt="123" >
                         <p>${product.product.name}</p>
-                        <p>${product.quantity}</p>
+                        <p>${product.amount}</p>
                     </div>
                 </li>
                 `
 
-                price += product.product.price * product.quantity
+                price += product.product.price * product.amount
             })
 
             orders.innerHTML += `
@@ -47,8 +49,10 @@ const update = () => {
                             `<input class="send" type="submit" value="Отправить в доставку" onclick="sendDelivery(${element.id})">`
                             :
                             `<input class="send" type="submit" value="Сообщить о готовности" id="sendDelivery_${element.id}">`
-                        
                         :
+                            element.status === "ready" ?
+                            `<p>Ищем курьера...</p>`
+                            :
                             `
                             <div style="display: flex;">
                                 <input class="send" type="submit" value="Отдать курьеру" id="sendDelivery_${element.id}">
@@ -65,6 +69,12 @@ const update = () => {
 
 const sendDelivery = (orderId) => {
     fetch(urlMap.findDelivery + new URLSearchParams({
+        order_id: orderId,
+    }))
+}
+
+const orderReady = (orderId) => {
+    fetch(urlMap.orderReady + new URLSearchParams({
         order_id: orderId,
     }))
 }

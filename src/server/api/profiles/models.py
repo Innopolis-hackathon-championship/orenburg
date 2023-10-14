@@ -38,7 +38,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
         default=RoleChoices.CUSTOMER
     )
     
-    date_joined = models.DateTimeField(
+    joined = models.DateTimeField(
         "Дата регистрации", default=timezone.now
     )
 
@@ -50,7 +50,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
         default=False
     )
     
-    is_verified = models.BooleanField(
+    is_confirmed = models.BooleanField(
         "is_confirmed", 
         default=False
     )
@@ -93,7 +93,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     class Meta:
-        db_table = "profile__user"
+        db_table = "user"
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 

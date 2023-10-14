@@ -40,8 +40,8 @@ const update = () => {
               <td>${product.name}</td>
               <td><img class="product-img" src="${product.image}" alt=""></td>
               <td><input type="text" value="${product.price}" id="price_${product.id}"> р.</td>
-              <td><span id="product_quantity_${product.id}">${product.quantity}</span> шт.</td>
-              <td><input type="text" value="0" id="quantity_${product.id}"> шт.</td>
+              <td><span id="product_amount_${product.id}">${product.amount}</span> шт.</td>
+              <td><input type="text" value="0" id="amount_${product.id}"> шт.</td>
           </tr>
           `
       });
@@ -58,13 +58,13 @@ document.getElementById("take_btn").addEventListener("click", (e) => {
   rows.forEach(row => {
     const productId = row.getAttribute('class').split('=')[1];
     const price = row.querySelector(`#price_${productId}`).value;
-    const quantity = row.querySelector(`#quantity_${productId}`).value;
-    const old_quantity = row.querySelector(`#product_quantity_${productId}`).textContent;
+    const amount = row.querySelector(`#amount_${productId}`).value;
+    const old_amount = row.querySelector(`#product_amount_${productId}`).textContent;
 
     products.push({
       id: productId,
       price: price,
-      quantity: parseInt(quantity, 10) + parseInt(old_quantity, 10)
+      amount: parseInt(amount, 10) + parseInt(old_amount, 10)
     })
   });
 

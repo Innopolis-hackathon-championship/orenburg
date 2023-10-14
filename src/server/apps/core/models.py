@@ -55,11 +55,17 @@ class OrderModel(models.Model):
         "Адрес доставки", max_length=127,
         null=True, blank=True
     )
+    courier_id = models.IntegerField(
+        null=True, blank=True
+    )
+    delivery_start_date = models.DateTimeField(
+        null=True, blank=True
+    )
     
     start_date = models.DateTimeField(
         "Дата заказа", default=timezone.now
     )
-    end_date = models.DateTimeField(
+    finish_date = models.DateTimeField(
         "Дата получения", default=None,
         null=True, blank=True
     )
@@ -98,7 +104,7 @@ class OrderToProductModel(models.Model):
         verbose_name="Продукт",
         on_delete=models.CASCADE
     )
-    quantity = models.PositiveIntegerField(
+    amount = models.PositiveIntegerField(
         "Количество", default=0
     )
 
@@ -109,4 +115,32 @@ class OrderToProductModel(models.Model):
         unique_together = ('order', 'product')
     
     def __str__(self) -> str:
-        return f"{self.product.name} - {self.quantity}"
+        return f"{self.product.name} - {self.amount}"
+    
+    
+class DeliveryQueueModel(models.Model):
+    order_id = models.IntegerField(unique=True)
+    queue = models.TextField()
+    pointer = models.IntegerField()
+    last_offer_date = models.DateField(
+        default=timezone.now
+    )
+
+    class Meta:
+        db_table = "delivery_queue"
+        verbose_name = "Очередь заказов"
+        verbose_name_plural = "Очереди заказов"
+    
+    def __str__(self) -> str:
+        return f"{self.order_id} {self.queue} pointer: {self.pointer}"
+
+
+class CourierModel(models.Model):
+    is_online = models.BooleanField('is_online', default=False)
+    raiting = models.FloatField("raiting", default=5)
+    is_delivering = models.BooleanField("is_delivering", default=False)
+
+    class Meta:
+        db_table = "courier"
+        verbose_name = "Курьер"
+        verbose_name_plural = "Курьеры"

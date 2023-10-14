@@ -88,18 +88,26 @@ WSGI_APPLICATION = "server.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    },
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # },
     # "default": {
     #     "ENGINE": "django.db.backends.postgresql_psycopg2",
-    #     "NAME": "",
-    #     "USER": "",
-    #     "PASSWORD": "",
-    #     "HOST": "",
-    #     "PORT": ""
+    #     "NAME": "hackaton_innopolis",
+    #     "USER": "postgres",
+    #     "PASSWORD": "admin",
+    #     "HOST": "0.0.0.0",
+    #     "PORT": "5432"
     # },
+     "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "fbghertej5hy4y43ty5uj",
+        "HOST": "db.bgwrrcziuckdrfofvxik.supabase.co",
+        "PORT": "5432"
+    },
 }
 
 
@@ -127,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "ru"
 
-TIME_ZONE = "Europe/Moscow"
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 

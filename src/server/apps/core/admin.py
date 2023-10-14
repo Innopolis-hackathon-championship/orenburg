@@ -6,5 +6,7 @@ from . import models
 admin.site.register((
     models.ProductModel,
     models.OrderModel,
-    models.OrderToProductModel
+    models.OrderToProductModel,
+    models.CourierModel,
+    models.DeliveryQueueModel
 ))
