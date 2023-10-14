@@ -41,6 +41,8 @@ class CustomerRead(UserRead):
     pass
 
 
+
+
 class CustomerCreate(UserCreate):
     pass
 
@@ -50,3 +52,6 @@ class UnverifiedUser(BaseModel):
     fullname: str
     code: str
     
+    
+class Courier(UserRead):
+    is_online: bool

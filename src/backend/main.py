@@ -20,6 +20,7 @@ api_router = APIRouter(
 )
 
 api_router.include_router(users.router.router)
+api_router.include_router(users.router.courier_router)
 api_router.include_router(products.router.order_router)
 api_router.include_router(products.router.product_router)
 
