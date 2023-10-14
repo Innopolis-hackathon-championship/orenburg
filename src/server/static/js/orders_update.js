@@ -1,10 +1,11 @@
 const urlMap = {
     orders: "/api/new-orders/",
-    orderReady: "/api/order/ready/",
+    orderReady: "/api/order/ready/?",
 
     findDelivery: "/api/delivery/find/?",
     statusDelivery: "/api/delivery/status/?",
-    giveDelivery: "/api/order/take/?",
+    orderTake: "/api/order/take/?",
+    giveDelivery: "/api/delivery/give/?",
 }
 
 const get = (url) => {
@@ -54,17 +55,34 @@ const update = () => {
                             element.status === "ready" ?
                             `<p>Ищем курьера...</p>`
                             :
-                            `
-                            <div style="display: flex;">
-                                <input class="send" type="submit" value="Отдать курьеру" onclick="giveDelivery(${element.id})">
-                                <p style="margin-left: 30px;">PIN код для проверки: ${element.code}</p>
-                            </div>
-                            `
+
+                                element.status === "wait" ?
+                                    `
+                                    <div style="display: flex;">
+                                        <input class="send" type="submit" value="Отдать в руки" onclick="orderTake(${element.id})">
+                                        <p style="margin-left: 30px;">PIN код для проверки: ${element.code}</p>
+                                    </div>
+                                    `
+                                :
+                                `
+                                    <div style="display: flex;">
+                                        <input class="send" type="submit" value="Отдать курьеру" onclick="giveDelivery(${element.id})">
+                                        <p style="margin-left: 30px;">PIN код для проверки: ${element.code}</p>
+                                    </div>
+                                    `
                     }
                 </div>
             </li>
             `
         });
+
+        if (orders.innerHTML === "") {
+            orders.innerHTML = `
+            <li class="empty">
+                У вас пока нет новых заказов...
+            </li>
+            `
+        }
     })
 }
 
@@ -82,6 +100,12 @@ const orderReady = (orderId) => {
 
 const giveDelivery = (orderId) => {
     fetch(urlMap.giveDelivery + new URLSearchParams({
+        order_id: orderId,
+    }))
+}
+
+const orderTake = (orderId) => {
+    fetch(urlMap.orderTake + new URLSearchParams({
         order_id: orderId,
     }))
 }

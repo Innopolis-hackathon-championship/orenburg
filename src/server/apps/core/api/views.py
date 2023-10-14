@@ -53,7 +53,7 @@ class TakeDeliveryView(APIView):
 
 class NewOrdersView(generics.ListAPIView):
     queryset = models.OrderModel.objects.filter(
-        status__in=["prepare", "ready"]
+        status__in=["prepare", "ready", "wait", "waitcourier"]
     )
     serializer_class = serializers.OrderSerializer
     
@@ -169,7 +169,7 @@ class FindDeliveryView(APIView):
         }, status.HTTP_200_OK)
 
 
-class GiveDeliveryView(APIView):
+class TakeReadyDeliveryView(APIView):
     def get(self, request: Request):
         order_id = request.query_params.get("order_id")
         telegram_id = request.query_params.get("telegram_id")
@@ -220,16 +220,44 @@ class GiveDeliveryView(APIView):
         if queue:
             queue.delete()
             
-        order.status = "delivery"
+        order.status = "waitcourier"
         order.courier_id = user.pk
-        order.delivery_address = timezone.now()
-        
+
         order.save()
-        
+
         courier_instance.is_online = False
         courier_instance.is_delivering = True
         courier_instance.save()
 
+        return Response({
+            "delivery_address": order.delivery_address,
+            "code": order.code
+        }, status.HTTP_200_OK)
+
+        
+class GiveDeliveryView(APIView):
+    def get(self, request: Request):
+        order_id = request.query_params.get("order_id")
+        
+        if not order_id:
+            return Response({
+                "message": "no order_id in query params"
+            }, status.HTTP_400_BAD_REQUEST)
+            
+        order = models.OrderModel.objects.filter(
+            pk=order_id
+        ).first()
+    
+        if not order:
+            return Response({
+                "message": f"no order by {order_id} id"
+            }, status.HTTP_400_BAD_REQUEST)
+            
+        order.status = "delivery"
+        order.delivery_start_date = timezone.now()
+
+        order.save()
+        
         return Response({
             "message": "ok"
         }, status.HTTP_200_OK)
@@ -336,12 +364,61 @@ class OrderTakeView(APIView):
         
         for m in m2m:
             product = models.ProductModel.objects.filter(
-                pk=m.product
+                pk=m.product.pk
             ).first()
             
             if product:
                 product.quantity -= m.amount
                 product.save()
+
+        order.delete()
+        
+        return Response({
+            "message": "ok"
+        }, status.HTTP_200_OK)
+
+
+class DeliveryArrivedView(APIView):
+    def get(self, request: Request):
+        order_id = request.query_params.get("order_id")
+        
+        if not order_id:
+            return Response({
+                "message": "no order_id in query params"
+            }, status.HTTP_400_BAD_REQUEST)
+            
+        order = models.OrderModel.objects.filter(
+            pk=order_id
+        ).first()
+    
+        if not order:
+            return Response({
+                "message": f"no order by {order_id} id"
+            }, status.HTTP_400_BAD_REQUEST)
+        
+        order.status = "arrived"
+        order.save()
+        
+        user = UserModel.objects.filter(
+            pk=order.customer_id
+        ).first()
+        
+        if not user:
+            return Response({
+                "message": "not user"
+            }, status.HTTP_400_BAD_REQUEST)
+        
+        send_message_to_queue({
+            "sendMessege": {
+                "userId": user.telegram_id,
+                "message": f"Подтвердите получение заказа!\nPIN код для подверждения: {order.code}",
+                "buttons": [
+                    {
+                        "comfirm": order_id
+                    },
+                ]
+            }
+        })
         
         return Response({
             "message": "ok"

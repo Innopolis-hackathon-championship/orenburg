@@ -46,6 +46,7 @@ class OrderModel(models.Model):
             ("prepare", "Готовится"),
             ("wait", "Ожидает самовывоз"),
             ("ready", "Ожидает доставки"),
+            ("waitcourier", "Ожидает доставки"),
             ("delivery", "Доставляется"),
             ("arrived", "Ожидание"),
             ("finished", "Завершен"),
@@ -116,7 +117,7 @@ class OrderToProductModel(models.Model):
         unique_together = ('order', 'product')
     
     def __str__(self) -> str:
-        return f"{self.product.name} - {self.amount}"
+        return f"{self.order}: {self.product.name} - {self.amount}"
     
     
 class DeliveryQueueModel(models.Model):
