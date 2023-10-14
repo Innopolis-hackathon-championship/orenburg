@@ -5,9 +5,14 @@ from sqlalchemy import select
 
 from . import dependencies, schemas, models
 from .constants import *
+import products
 
 router = APIRouter(
     prefix='/users'
+)
+
+courier = APIRouter(
+    prefix='/courier'
 )
 
 
@@ -115,3 +120,29 @@ async def get_uverified_users(
             status_code=status.HTTP_404_NOT_FOUND
         )
     return user
+
+
+@router.get(
+    '/{usernae}/orders',
+    response_model=list[products.schemas.Order]
+    )
+async def get_order(
+    username: str,
+    session: dependencies.InjectionSession
+    ):
+    user = await dependencies.get_user(session, username) 
+    stmt = (
+        select(products.models.Order)
+        .where(products.models.Order.customer_id == user.id)
+        )
+    orders = await session.execute(stmt)
+    orders = orders.scalars()
+    return orders
+
+
+
+# @courier.get(
+#     '/orders',
+#     response_model=list[products.schemas.Order]
+#     )
+    

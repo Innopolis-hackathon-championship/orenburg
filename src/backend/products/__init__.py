@@ -1,1 +1,1 @@
-from . import router, dependencies, service, models
+from . import router, dependencies, service, models, schemas

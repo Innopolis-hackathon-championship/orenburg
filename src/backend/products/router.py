@@ -64,6 +64,7 @@ async def delete_product(
     await session.commit()
     return
 
+
 @order_router.post(
     '/',
     response_model=schemas.Order

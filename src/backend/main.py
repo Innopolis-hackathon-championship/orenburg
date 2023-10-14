@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
 
@@ -13,11 +13,15 @@ logging.basicConfig(
     )
 
 app = FastAPI()
+api_router = APIRouter(
+    prefix='/api'
+)
 
-app.include_router(users.router.router)
-app.include_router(products.router.order_router)
-app.include_router(products.router.product_router)
+api_router.include_router(users.router.router)
+api_router.include_router(products.router.order_router)
+api_router.include_router(products.router.product_router)
 
+app.include_router(api_router)
 
 @app.route('/')
 def index(request: Request) -> HTMLResponse:

@@ -2,6 +2,7 @@ import random
 import string
 
 from sqlalchemy import Result, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import models, schemas
 from .constants import *
@@ -34,3 +35,9 @@ class UserManager(BaseManager):
             stmt = stmt.filter(models.User.role == role)
         users = await self.session.execute(stmt)
         return users
+
+
+async def get_courier_queue(
+    session: AsyncSession
+    ):
+    pass
