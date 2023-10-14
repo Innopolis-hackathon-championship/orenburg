@@ -4,13 +4,10 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-
 from handlers import start_handler
 from handlers.courier import (
     order_handler,
     courier_profile_handler,
-    send_order_handler,
     cancel_order_handler
 )
 from middlewares.chat_action import ChatActionMiddleware
@@ -33,14 +30,6 @@ async def main():
         cancel_order_handler.router
     )
 
-    scheduler = AsyncIOScheduler()
-    scheduler.add_job(
-        send_order_handler.request_data, 
-        args=[bot], 
-        trigger="interval", 
-        seconds=5
-    )
-    scheduler.start()
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
