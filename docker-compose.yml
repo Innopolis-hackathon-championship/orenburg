@@ -1,18 +1,17 @@
 services:
   app:
     build:
-      context: ./src/server
+      context: ./src/backend/
+    env_file:
+      - .env-dev
     container_name: app
     command: ["bash", "start.sh"]
     restart: always
     ports:
-      - 8000:8000
-  
-  bot:
-    build:
-      context: ./src/tg
-    container_name: bot
-    restart: always
+      - 8080:8080
+    # depends_on:
+      # - db
+      # - pgadmin
 
   # db:
   #   image: postgres
@@ -33,6 +32,6 @@ services:
   #   ports:
   #     - "5050:80"
   
-volumes:
-  db_data:
-    name: "db_data"
+# volumes:
+#   db_data:
+#     name: "db_data"
