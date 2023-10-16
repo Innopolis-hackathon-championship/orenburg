@@ -12,3 +12,5 @@ Mini app на **React.js**
 
     docker compose build
     docker compose up
+
+![alt text for screen readers](https://pravlife.org/sites/default/files/field/image/2019.10.24/88dd6ea760jpg.jpg "Text to show on mouseover")
